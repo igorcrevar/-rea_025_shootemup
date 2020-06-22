@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<title>Example 1 - Title Screen</title>
+<script type="text/javascript" src="js/resource_and_sound.js"></script>
+<script type="text/javascript" src="js/vendor/animsprite.js"></script>
+<script type="text/javascript" src="js/intro.js"></script>
+<script>
+
+  
+ window.onload = function() {
+    ResourceManagerObject.load(['ameba.png'], function() {
+        start(ResourceManagerObject.getResource('ameba'));
+    });
+ }
+
+ function start(characterImage) {
+    var canvas = document.getElementById('game');
+    canvas.width = 600;
+    canvas.height = 480;
+    var context = canvas.getContext('2d');
+
+    var prevTime = new Date().getTime();
+
+    var scrollTxts = [];
+    scrollTxts[0] = scrollTextCreate(context, canvas.width, "Hello from @area 025", 50, 100)
+    scrollTxts[1] = scrollTextCreate(context, canvas.width, "This game is brought to you by Y.C.S and @area 025. Greetengs to me, myself and Irene. Fuck all other scum from universe exspecially you who dont read this long text", 400, -50)
+    scrollTxts[2] = trigTextCreate(context, canvas.width, "Press any key to begin game", 150, 0)
+    scrollTxts[3] = trigTextCreate(context, canvas.width, "@area 025", 250, Math.PI / 5)
+    scrollTxts[4] = spaceCreate(context, canvas.width, canvas.height);    
+
+    var animations = [
+		new Animation("anim", 0, 8, 576 / 8, 64, 12),
+    ];    
+    var sprite = new Sprite(animations, characterImage);
+    sprite.posX = 300;
+    sprite.posY = 200;
+    sprite.incX = 20;
+ 
+    function animate() {
+        var newTime = new Date().getTime() ;
+        var deltaTime = (newTime - prevTime) / 1000;
+        prevTime = newTime;
+
+        context.clearRect(0, 0, canvas.width, canvas.height)
+        sprite.animate();
+        sprite.posX += sprite.incX * deltaTime;
+        if (sprite.posX > 350 || sprite.posX < 250) {
+           sprite.incX = -sprite.incX;
+        }
+		context.save();
+		context.translate(sprite.posX, sprite.posY);
+        sprite.draw(context);
+		context.restore();
+
+        for (var i = 0; i < scrollTxts.length; ++i) {
+            scrollTxts[i].update(deltaTime);
+        }
+
+        setTimeout(animate, 20);
+    }
+
+    animate();
+   
+ }
+</script>
+
+<style type="text/css" media="screen">
+html {
+ height: 100%;
+ overflow: hidden
+}
+
+body {
+ margin: 0px;
+ padding: 0px;
+ height: 100%;
+}
+</style>
+</head>
+<body>
+  <canvas id="game" width="100" height="100" style="border: 1px solid #000">
+    Your browser doesn't include support for the canvas tag.
+  </canvas>
+</body>
+</html>

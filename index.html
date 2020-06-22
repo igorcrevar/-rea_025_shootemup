@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<title>Example 1 - Title Screen</title>
+<script type="text/javascript" src="js/input.js"></script>
+<script type="text/javascript" src="js/vendor/jquery.js"></script>
+<script type="text/javascript" src="js/vendor/animsprite.js"></script>
+<script type="text/javascript" src="js/events.js"></script>
+<script type="text/javascript" src="js/math_model.js"></script>
+<script type="text/javascript" src="js/game_model.js"></script>
+<script type="text/javascript" src="js/item.js"></script>
+<script type="text/javascript" src="js/spore.js"></script>
+<script type="text/javascript" src="js/virus.js"></script>
+<script type="text/javascript" src="js/bacteria.js"></script>
+<script type="text/javascript" src="js/capsule.js"></script>
+<script type="text/javascript" src="js/queen.js"></script>
+<script type="text/javascript" src="js/controller.js"></script>
+<script type="text/javascript" src="js/resource_and_sound.js"></script>
+<script type="text/javascript" src="js/levels.js"></script>
+<script type="text/javascript" src="js/test.js"></script>
+<script>
+	window.onload = function() {
+		$('#gamebegin').click(function() {
+			document.getElementById('gamebegin').style.display = 'none';
+			document.getElementById('player_bar').style.display = 'block';
+			var canvas = document.getElementById('game');
+			// Force canvas to dynamically change its size to
+			// the same width/height as the browser window
+			canvas.width = 512;
+			canvas.height = 768;				
+			var c = canvas.getContext('2d');
+			// Fill the screen with a black background
+			c.fillStyle = '#000000';
+			c.fillRect(0, 0, canvas.width, canvas.height);
+			var phrase = "Click or tap the screen to start the game";
+			c.font = 'bold 16px Arial, sans-serif';
+			c.fillStyle = '#FFFFFF';
+			c.fillText(phrase, 10, 30);
+			
+			var game = new Game(canvas);
+		 	game.init();
+		 	game.run();	
+		});
+		
+	}
+</script>
+<style type="text/css" media="screen">
+html {
+	height: 100%;
+	overflow: hidden;
+	
+	-webkit-touch-callout: none;
+	-webkit-user-select: none;
+	-khtml-user-select: none;
+	-moz-user-select: none;
+	-ms-user-select: none;
+	user-select: none;
+	
+	cursor: crosshair;
+}
+
+body {
+	margin: 0px;
+	padding: 0px;
+	height: 100%;
+	
+	-webkit-touch-callout: none;
+	-webkit-user-select: none;
+	-khtml-user-select: none;
+	-moz-user-select: none;
+	-ms-user-select: none;
+	user-select: none;
+	
+	cursor: crosshair;
+}
+
+#player_bar {
+	/* Fallback for web browsers that doesn't support RGBa */
+	background: rgb(0, 0, 0) transparent;
+	/* RGBa with 0.6 opacity */
+	background: rgba(0, 0, 0, 0.6);
+	/* For IE 5.5 - 7*/
+	filter:progid:DXImageTransform.Microsoft.gradient(startColorstr=#99000000, endColorstr=#99000000);
+	/* For IE 8*/
+	-ms-filter: "progid:DXImageTransform.Microsoft.gradient(startColorstr=#99000000, endColorstr=#99000000)";
+	position: absolute; 
+	top:5px;
+	color: white;
+	width:512px;
+	font-family: Calibri, Tahoma, Arial sans-serif;
+	text-shadow: 0px 0px 2px red;
+}
+
+</style>
+</head>
+<body>
+	<div id="player_bar" style="display:none">
+	   <div style="float:left; width:150px; margin-left:20px">Points: <span id="player_points">0</span></div>
+	   <div style="float:left; width:150px; margin-left:20px">Health: <span id="player_health">0</span></div>
+	   
+	   <div style="float:left; width:150px; margin-left:20px; display:none;" id="player_shield_active_div">Shield Active: <span id="player_shield_active">0</span></div>
+	   <div style="float:left; width:150px; margin-left:20px; display:none;" id="shooting_div">DNK Active: <span id="shooting_span">0</span></div>
+	   <!-- 
+	   <div style="float:left; width:180px; background: yellow; border: 1px solid #666; height: 16px">
+	   		<div style="width:0px" id="player_health"></div>
+	   </div>
+	    -->
+	   <div style="clear:both"></div>
+	</div>
+	
+	<div id="gameover" style="display: none; position: absolute; left: 50%; margin-left: -160px; width: 312px; top: 200px; height: 184px; background: transparent url('assets/images/gameover.png')">
+	</div>
+	
+	<div id="gamebegin" style="position: absolute; left: 50%; margin-left: -160px; width: 312px; top: 200px; height: 184px; background: transparent url('assets/images/gamestart.png')">
+	</div>
+	
+	<canvas id="game" style="">
+Your browser doesn't include support for the canvas tag.
+</canvas>
+</body>
+</html>
